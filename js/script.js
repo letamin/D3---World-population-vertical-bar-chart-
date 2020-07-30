@@ -24,6 +24,7 @@ const render = (data) => {
 
     addingAxes(xScale, yScale, innerWidth, innerHeight, g);
     addingTitle(g, innerWidth);
+    appendTooltip();
 
     g.selectAll('.bar').data(data)
         .enter().append('rect').attr("class", "bar")
@@ -31,7 +32,47 @@ const render = (data) => {
         .attr('y', d => yScale(yValue(d)))
         .attr('width', xScale.bandwidth())
         .attr('height', d => innerHeight - yScale(yValue(d)))
+        .on('mouseover', hoverEffectOver)
+        .on('mouseout', hoverEffectDone)
 };
+
+//Hover effect on bars - opacity decrease and data display
+function hoverEffectOver() {
+    const tooltip = d3.select('.tooltip');
+    const selectedElement = d3.select(this);
+
+    selectedElement.transition()
+        .duration('50')
+        .attr('opacity', '.85')
+
+    tooltip.transition()
+        .duration(50)
+        .style("opacity", 1)
+
+    const tooltipInfo = selectedElement._groups[0][0].__data__.Population
+    tooltip.html(d3.format("s")(tooltipInfo).replace('G', 'B')) //display the data when hovering https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
+        .style("left", (d3.event.pageX + 10) + "px")
+        .style("top", (d3.event.pageY - 15) + "px");
+}
+
+//Hover effect on bars - back to normal
+function hoverEffectDone() {
+    const tooltip = d3.select('.tooltip');
+
+    d3.select(this).transition()
+        .duration('50')
+        .attr('opacity', '1');
+
+    tooltip.transition()
+        .duration('50')
+        .style("opacity", 0);
+}
+
+const appendTooltip = () => {
+    d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+}
 
 //Adding the X and Y axes and their labels
 const addingAxes = (xScale, yScale, innerWidth, innerHeight, g) => {
