@@ -82,7 +82,7 @@ const initializeChart = () => {
 
 //Adding the title for our chart
 const addingTitle = (g, innerWidth) => {
-    const title = 'Top 15 contries with highest population';
+    const title = 'Top 15 countries with highest population';
     g.append('text')
         .attr('class', 'title')
         .attr('y', -20)
