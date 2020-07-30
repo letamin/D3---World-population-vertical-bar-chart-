@@ -1,0 +1,32 @@
+body {
+  margin: 0px;
+  background: #eee;
+}
+
+text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.tick text,
+.title,
+.axis-label {
+  fill: #635f5d;
+}
+
+.title,
+.axis-label {
+  font-size: 2em;
+}
+
+.tick text {
+  font-size: 1.2em;
+}
+
+.tick line {
+  stroke: #c0c0bb;
+}
+
+.bar {
+  fill: steelblue;
+  stroke: rgb(82, 82, 82);
+}
